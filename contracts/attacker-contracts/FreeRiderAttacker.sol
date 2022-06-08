@@ -5,8 +5,8 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
-import "./FreeRiderNFTMarketplace.sol";
-import "./FreeRiderBuyer.sol";
+import "../free-rider/FreeRiderNFTMarketplace.sol";
+import "../free-rider/FreeRiderBuyer.sol";
 import "../DamnValuableNFT.sol";
 
 contract FreeRiderAttacker is IERC721Receiver {

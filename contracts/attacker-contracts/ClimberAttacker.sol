@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "./ClimberTimelock.sol";
-import "./ClimberVault.sol";
+import "../climber/ClimberTimelock.sol";
+import "../climber/ClimberVault.sol";
 
 contract ClimberAttacker {
 
