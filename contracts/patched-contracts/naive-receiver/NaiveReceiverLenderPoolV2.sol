@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
 /**
- * @title NaiveReceiverLenderPool
+ * @title NaiveReceiverLenderPoolV2
  * @author Dalton Sweeney
  */
 contract NaiveReceiverLenderPoolV2 is ReentrancyGuard {
